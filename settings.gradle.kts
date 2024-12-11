@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "Playground"
 include(":app")
 include(":module:api:logger")
+include(":module:impl:logger")
