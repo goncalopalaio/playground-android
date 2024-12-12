@@ -21,5 +21,5 @@ val appModule = module {
     factory<GetNameUseCase> { GetNameUseCase(get()) }
 
     /** ViewModels **/
-    viewModel { MainViewModel(get(), get()) }
+    viewModel { MainViewModel(get()) }
 }
