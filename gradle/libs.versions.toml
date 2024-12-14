@@ -1,20 +1,43 @@
 [versions]
+sdk-compile = "35"
+sdk-min = "26"
+sdk-target = "35"
+
+app-namespace = "com.gp"
+app-version-code = "1"
+app-version-name = "1.0.000"
+
+kotlinxCoroutinesCore = "1.9.0"
+kotlinxCoroutinesTest = "1.9.0"
 agp = "8.7.3"
+converterMoshi = "2.9.0"
 koinBom = "3.5.0"
-kotlin = "2.0.0"
+kotlin = "2.0.20"
 coreKtx = "1.15.0"
+kspVersion = "2.0.20-1.0.25"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
-composeBom = "2024.04.01"
-jetbrainsKotlinJvm = "2.0.0"
-appcompat = "1.6.1"
-material = "1.10.0"
+composeBom = "2024.12.01"
+jetbrainsKotlinJvm = "2.0.20"
+appcompat = "1.7.0"
+material = "1.12.0"
+moshiAdapters = "1.14.0"
+moshiKotlin = "1.14.0"
+moshiKotlinCodegen = "1.15.2"
+retrofit = "2.9.0"
+arrowCore = "1.2.4"
+turbine = "1.0.0"
+coil = "2.2.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+arrow-stack = { module = "io.arrow-kt:arrow-stack", version.ref = "arrowCore" }
+arrow-core = { module = "io.arrow-kt:arrow-core" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "converterMoshi" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -32,7 +55,14 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koinBom" }
 koin-core = { module = "io.insert-koin:koin-core" }
 koin-android = { module = "io.insert-koin:koin-android" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+moshi-adapters = { module = "com.squareup.moshi:moshi-adapters", version.ref = "moshiAdapters" }
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiKotlin" }
+moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshiKotlinCodegen" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -40,4 +70,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 
