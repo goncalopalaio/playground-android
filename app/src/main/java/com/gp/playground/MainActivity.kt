@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -57,11 +59,23 @@ fun Greeting(state: UiState, modifier: Modifier = Modifier) {
             }
 
             is UiState.Dashboard -> {
-                Text(
-                    text = "Hello ${state.name}! \n ${state.stats}",
-                    modifier = modifier,
-                    textAlign = TextAlign.Center
-                )
+                LazyColumn {
+                    item {
+                        Text(
+                            text = "Hello ${state.name}! \n ${state.stats}",
+                            modifier = modifier,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                   /* val list: List<String> = state.stats.split(":")
+                    items(list) {
+                        Text(
+                            text = it,
+                            modifier = modifier,
+                            textAlign = TextAlign.Center
+                        )
+                    }*/
+                }
             }
         }
     }
