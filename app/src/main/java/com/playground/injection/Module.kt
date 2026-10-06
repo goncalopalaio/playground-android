@@ -1,5 +1,7 @@
 package com.playground.injection
 
+import com.playground.api.remote.UsersApi
+import com.playground.space.UsersSource
 import com.playground.api.remote.PhotosApi
 import com.playground.device.AndroidDeviceInformation
 import com.playground.device.DeviceInformation
@@ -26,6 +28,7 @@ val appModule = module {
     single<DeviceInformation> { AndroidDeviceInformation() }
     single<KeyValueStores> { RoomKeyValueStores(androidContext()) }
     single<PhotosApi> { PhotosSource() }
+    single<UsersApi> { UsersSource() }
 
 
     /** Factories **/
@@ -35,5 +38,5 @@ val appModule = module {
     /** ViewModels **/
     viewModel { MainViewModel(get(), get()) }
     viewModel { UsersViewModel(get()) }
-    viewModel { parameters -> UserStoreViewModel(get(), parameters.get()) }
+    viewModel { parameters -> UserStoreViewModel(get(), parameters.get(), get()) }
 }

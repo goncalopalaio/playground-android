@@ -50,7 +50,7 @@ class UserStoreActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         TextButton(onClick = { finish() }) { Text("Back to users") }
-                        Text("Store for ${storeViewModel.userId}", style = MaterialTheme.typography.headlineSmall)
+                        Text("Screen for ${storeViewModel.userId}", style = MaterialTheme.typography.headlineSmall)
                         OutlinedTextField(
                             value = state.key,
                             onValueChange = storeViewModel::updateKey,
@@ -75,9 +75,32 @@ class UserStoreActivity : ComponentActivity() {
                             Text(it, color = MaterialTheme.colorScheme.error)
                             TextButton(onClick = storeViewModel::refresh, enabled = !state.isBusy) { Text("Refresh values") }
                         }
-                        Text("Current values · Most recent first", style = MaterialTheme.typography.titleMedium)
-                        if (state.entries.isEmpty() && !state.isBusy) Text("No values yet.")
                         LazyColumn(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            item {
+                                if (state.isUserLoading) {
+                                    Text("Loading user…")
+                                    LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                                }
+                                state.userError?.let {
+                                    Text(it, color = MaterialTheme.colorScheme.error)
+                                    TextButton(onClick = storeViewModel::refresh, enabled = !state.isBusy) { Text("Retry user lookup") }
+                                }
+                                state.user?.let { user ->
+                                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                        Text("User information", style = MaterialTheme.typography.titleMedium)
+                                        Text("ID: ${user.id}")
+                                        Text("Name: ${user.name}")
+                                        Text("Username: ${user.username}")
+                                        Text("Email: ${user.email}")
+                                        Text("Phone: ${user.phone}")
+                                        Text("Website: ${user.website}")
+                                    }
+                                }
+                            }
+                            item {
+                                Text("Current values · Most recent first", style = MaterialTheme.typography.titleMedium)
+                                if (state.entries.isEmpty() && !state.isBusy) Text("No values yet.")
+                            }
                             items(state.entries, key = { it.key }) { entry ->
                                 Column(
                                     modifier = Modifier.fillMaxWidth()
