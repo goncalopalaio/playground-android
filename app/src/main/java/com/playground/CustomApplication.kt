@@ -7,6 +7,7 @@ import com.playground.logger.Logger
 import com.playground.logger.log
 import com.playground.injection.appModule
 import org.koin.core.context.GlobalContext.startKoin
+import org.koin.android.ext.koin.androidContext
 
 class CustomApplication : Application() {
     override fun onCreate() {
@@ -16,6 +17,7 @@ class CustomApplication : Application() {
         log { "onCreate" }
 
         startKoin {
+            androidContext(this@CustomApplication)
             modules(appModule)
         }
     }

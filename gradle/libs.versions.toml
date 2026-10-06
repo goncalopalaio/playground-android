@@ -32,8 +32,11 @@ retrofit = "3.0.0"
 arrowCore = "2.2.3"
 turbine = "1.2.1"
 coil = "2.7.0"
+room = "2.8.4"
 
 [libraries]
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 arrow-stack = { module = "io.arrow-kt:arrow-stack", version.ref = "arrowCore" }
 arrow-core = { module = "io.arrow-kt:arrow-core" }
@@ -71,4 +74,3 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
-
