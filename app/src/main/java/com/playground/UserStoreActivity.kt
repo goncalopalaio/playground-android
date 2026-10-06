@@ -94,7 +94,25 @@ class UserStoreActivity : ComponentActivity() {
                                         Text("Email: ${user.email}")
                                         Text("Phone: ${user.phone}")
                                         Text("Website: ${user.website}")
+                                        Button(onClick = storeViewModel::loadPosts, enabled = !state.isPostsLoading) {
+                                            Text(if (state.postsError != null) "Retry posts lookup" else "Retrieve posts")
+                                        }
+                                        if (state.isPostsLoading) {
+                                            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                                        }
+                                        state.postsError?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                                        state.posts?.let { posts ->
+                                            Text("Posts", style = MaterialTheme.typography.titleMedium)
+                                            if (posts.isEmpty()) Text("No posts found.")
+                                        }
                                     }
+                                }
+                            }
+                            items(state.posts.orEmpty(), key = { "post-${it.id}" }) { post ->
+                                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                    Text("Post ${post.id} · User ${post.userId}", style = MaterialTheme.typography.titleSmall)
+                                    Text(post.title, style = MaterialTheme.typography.titleMedium)
+                                    Text(post.body)
                                 }
                             }
                             item {

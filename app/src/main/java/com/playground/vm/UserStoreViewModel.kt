@@ -1,5 +1,7 @@
 package com.playground.vm
 
+import com.playground.api.remote.PostsApi
+import com.playground.data.remote.Post
 import com.playground.api.remote.UsersApi
 import com.playground.data.remote.User
 import kotlinx.coroutines.currentCoroutineContext
@@ -22,15 +24,19 @@ data class UserStoreUiState(
     val user: User? = null,
     val isUserLoading: Boolean = false,
     val userError: String? = null,
+    val posts: List<Post>? = null,
+    val isPostsLoading: Boolean = false,
+    val postsError: String? = null,
     val isBusy: Boolean = false,
     val error: String? = null,
 )
 
-class UserStoreViewModel(private val stores: KeyValueStores, val userId: String, private val usersApi: UsersApi) : ViewModel() {
+class UserStoreViewModel(private val stores: KeyValueStores, val userId: String, private val usersApi: UsersApi, private val postsApi: PostsApi) : ViewModel() {
     private val _state = MutableStateFlow(UserStoreUiState())
     val state = _state.asStateFlow()
 
     private var userRequest: Job? = null
+    private var postsRequest: Job? = null
 
     init { refresh() }
 
@@ -43,19 +49,40 @@ class UserStoreViewModel(private val stores: KeyValueStores, val userId: String,
     fun refresh() = loadEntries(save = false)
     fun save() = loadEntries(save = true)
 
+    fun loadPosts() {
+        val user = _state.value.user ?: return
+        if (_state.value.isPostsLoading) return
+        _state.update { it.copy(posts = null, postsError = null, isPostsLoading = true) }
+        postsRequest = viewModelScope.launch {
+            try {
+                postsApi.posts(user.id).fold(
+                    { posts -> _state.update { it.copy(posts = posts) } },
+                    { _ -> _state.update { it.copy(postsError = "Could not load posts. Please try again.") } },
+                )
+            } finally {
+                if (currentCoroutineContext().isActive) {
+                    _state.update { it.copy(isPostsLoading = false) }
+                }
+            }
+        }
+    }
+
     private fun loadUser(id: String?) {
+        postsRequest?.cancel()
+        _state.update { it.copy(posts = null, postsError = null, isPostsLoading = false) }
         userRequest?.cancel()
         _state.update { it.copy(user = null, userError = null, isUserLoading = id != null) }
         if (id == null) return
         userRequest = viewModelScope.launch {
             try {
-                require(id.isNotBlank())
-                val user = usersApi.user(id)
-                _state.update { it.copy(user = user) }
-            } catch (exception: CancellationException) {
-                throw exception
-            } catch (_: Exception) {
-                _state.update { it.copy(userError = "Could not load user for id '$id'. Check the value and try again.") }
+                if (id.isBlank()) {
+                    _state.update { it.copy(userError = "Could not load user for id '$id'. Check the value and try again.") }
+                } else {
+                    usersApi.user(id).fold(
+                        { user -> _state.update { it.copy(user = user) } },
+                        { _ -> _state.update { it.copy(userError = "Could not load user for id '$id'. Check the value and try again.") } },
+                    )
+                }
             } finally {
                 if (currentCoroutineContext().isActive) {
                     _state.update { it.copy(isUserLoading = false) }
