@@ -1,10 +1,10 @@
 package com.playground.device.storage
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "key_value_entries")
+@Entity(tableName = "key_value_entries", primaryKeys = ["userId", "key"])
 internal data class KeyValueEntry(
-    @PrimaryKey val key: String,
+    val userId: String,
+    val key: String,
     val value: String,
 )

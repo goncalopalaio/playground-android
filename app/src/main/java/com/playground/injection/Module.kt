@@ -3,8 +3,8 @@ package com.playground.injection
 import com.playground.api.space.SpaceApi
 import com.playground.device.AndroidDeviceInformation
 import com.playground.device.DeviceInformation
-import com.playground.device.KeyValueStore
-import com.playground.device.RoomKeyValueStore
+import com.playground.device.KeyValueStores
+import com.playground.device.RoomKeyValueStores
 import com.playground.domain.GetNameUseCase
 import com.playground.domain.GetSpaceCompanyUseCase
 import com.playground.domain.GetSpaceLaunchesUseCase
@@ -24,7 +24,7 @@ val appModule = module {
     /** Singletons **/
     single<Logger> { LogcatLogger() }
     single<DeviceInformation> { AndroidDeviceInformation() }
-    single<KeyValueStore> { RoomKeyValueStore(androidContext()) }
+    single<KeyValueStores> { RoomKeyValueStores(androidContext()) }
     single<SpaceApi> { SpaceSource() }
 
     single<SpaceRepository> { SpaceRepository() }

@@ -1,6 +1,6 @@
 package com.playground.device
 
-/** Persistent storage for string values, indexed by unique string keys. */
+/** Persistent storage for string values belonging to one user, indexed by unique string keys. */
 interface KeyValueStore {
     /** Returns null when the key does not exist. */
     suspend fun get(key: String): String?
@@ -11,6 +11,6 @@ interface KeyValueStore {
     /** Removes the key if it exists. */
     suspend fun remove(key: String)
 
-    /** Removes all entries. */
+    /** Removes all entries belonging to this user. */
     suspend fun clear()
 }
