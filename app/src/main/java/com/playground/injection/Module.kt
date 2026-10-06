@@ -11,6 +11,7 @@ import com.playground.domain.GetSpaceLaunchesUseCase
 import com.playground.domain.repository.SpaceRepository
 import com.playground.logger.LogcatLogger
 import com.playground.logger.Logger
+import com.playground.vm.UsersViewModel
 import com.playground.vm.MainViewModel
 import com.playground.space.SpaceSource
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -36,4 +37,5 @@ val appModule = module {
 
     /** ViewModels **/
     viewModel { MainViewModel(get(), get(), get()) }
+    viewModel { UsersViewModel(get()) }
 }
