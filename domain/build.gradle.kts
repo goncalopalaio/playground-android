@@ -3,16 +3,13 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.jvm)
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
 kotlin {
+    jvmToolchain(21)
     compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
     }
 }
+
 dependencies {
     implementation(project(":module:api:logger"))
     implementation(project(":module:common"))
