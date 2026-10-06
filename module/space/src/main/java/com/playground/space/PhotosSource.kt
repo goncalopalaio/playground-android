@@ -1,9 +1,9 @@
 package com.playground.space
 
-import com.playground.api.space.PhotosApi
+import com.playground.api.remote.PhotosApi
 import com.playground.common.failure
 import com.playground.common.success
-import com.playground.data.space.Photo
+import com.playground.data.remote.Photo
 import com.playground.space.api.JsonPlaceholderApi
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.CancellationException

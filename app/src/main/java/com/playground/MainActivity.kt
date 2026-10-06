@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,11 +21,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
-import com.playground.data.space.Photo
+import com.playground.data.remote.Photo
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.playground.ui.theme.PlaygroundTheme
@@ -65,7 +67,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(state: UiState, modifier: Modifier = Modifier) {
     when (state) {
-        UiState.Loading -> LinearProgressIndicator(modifier = modifier.fillMaxWidth())
+        UiState.Loading -> Box(
+            modifier = modifier.fillMaxSize().padding(16.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+        }
         is UiState.Error -> Text(
             text = state.message,
             color = MaterialTheme.colorScheme.error,
@@ -85,7 +92,14 @@ fun Greeting(state: UiState, modifier: Modifier = Modifier) {
                         contentDescription = photo.title,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxWidth().aspectRatio(1f),
-                        loading = { LinearProgressIndicator(modifier = Modifier.padding(16.dp)) },
+                        loading = {
+                            Box(
+                                modifier = Modifier.fillMaxSize().padding(16.dp),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                            }
+                        },
                         error = { Text("Unable to load image", modifier = Modifier.padding(16.dp)) },
                     )
                 }

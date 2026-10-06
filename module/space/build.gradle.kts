@@ -42,7 +42,7 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":module:api:space"))
+    implementation(project(":module:api:remote"))
     implementation(project(":module:data"))
     implementation(project(":module:common"))
 

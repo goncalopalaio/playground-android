@@ -2,7 +2,7 @@ package com.playground.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.playground.data.space.Photo
+import com.playground.data.remote.Photo
 import com.playground.domain.GetNameUseCase
 import com.playground.domain.GetPhotosUseCase
 import com.playground.logger.log

@@ -51,7 +51,7 @@ kotlin {
 dependencies {
     implementation(project(":module:api:logger"))
     implementation(project(":module:api:device"))
-    implementation(project(":module:api:space"))
+    implementation(project(":module:api:remote"))
     implementation(project(":module:logger"))
     implementation(project(":module:common"))
     implementation(project(":module:data"))

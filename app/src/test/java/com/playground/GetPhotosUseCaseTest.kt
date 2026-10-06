@@ -1,10 +1,10 @@
 package com.playground
 
-import com.playground.api.space.PhotosApi
+import com.playground.api.remote.PhotosApi
 import com.playground.common.failure
 import com.playground.common.success
 import com.playground.common.successOrNull
-import com.playground.data.space.Photo
+import com.playground.data.remote.Photo
 import com.playground.domain.GetPhotosUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest

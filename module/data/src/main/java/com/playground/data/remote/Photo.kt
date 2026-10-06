@@ -1,4 +1,4 @@
-package com.playground.data.space
+package com.playground.data.remote
 
 data class Photo(
     val albumId: Int,

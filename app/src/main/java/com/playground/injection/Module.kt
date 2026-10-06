@@ -1,6 +1,6 @@
 package com.playground.injection
 
-import com.playground.api.space.PhotosApi
+import com.playground.api.remote.PhotosApi
 import com.playground.device.AndroidDeviceInformation
 import com.playground.device.DeviceInformation
 import com.playground.device.KeyValueStores
