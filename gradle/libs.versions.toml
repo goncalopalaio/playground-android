@@ -4,7 +4,7 @@ sdk-compile = "37"
 sdk-min = "26"
 sdk-target = "37"
 
-app-namespace = "com.gp"
+app-namespace = "com.pg"
 app-version-code = "1"
 app-version-name = "1.0.000"
 
