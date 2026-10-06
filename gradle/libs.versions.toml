@@ -1,4 +1,5 @@
 [versions]
+jdk = "21"
 sdk-compile = "37"
 sdk-min = "26"
 sdk-target = "37"

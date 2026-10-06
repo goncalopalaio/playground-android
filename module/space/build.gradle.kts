@@ -1,12 +1,16 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.ksp)
 }
 
+val jdkVersion = libs.versions.jdk.get()
+
 android {
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.toVersion(jdkVersion)
+        targetCompatibility = JavaVersion.toVersion(jdkVersion)
     }
 
     namespace = "${libs.versions.app.namespace.get()}.space"
@@ -31,9 +35,9 @@ android {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(jdkVersion.toInt())
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        jvmTarget.set(JvmTarget.fromTarget(jdkVersion))
     }
 }
 

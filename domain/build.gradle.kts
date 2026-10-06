@@ -1,12 +1,16 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
 }
 
+val jdkVersion = libs.versions.jdk.get()
+
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(jdkVersion.toInt())
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        jvmTarget.set(JvmTarget.fromTarget(jdkVersion))
     }
 }
 
