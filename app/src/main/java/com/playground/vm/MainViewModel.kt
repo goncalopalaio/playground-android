@@ -2,10 +2,9 @@ package com.playground.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.playground.common.successOrNull
+import com.playground.data.space.Photo
 import com.playground.domain.GetNameUseCase
-import com.playground.domain.GetSpaceCompanyUseCase
-import com.playground.domain.GetSpaceLaunchesUseCase
+import com.playground.domain.GetPhotosUseCase
 import com.playground.logger.log
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +17,8 @@ import kotlinx.coroutines.flow.stateIn
 
 sealed class UiState {
     data object Loading : UiState()
-    data class Dashboard(val name: String, val stats: String) : UiState()
+    data class Dashboard(val name: String, val photos: List<Photo>) : UiState()
+    data class Error(val message: String) : UiState()
 }
 
 interface UiEffect
@@ -27,8 +27,7 @@ interface UiEvent
 
 class MainViewModel(
     private val getNameUseCase: GetNameUseCase,
-    private val getSpaceLaunchesUseCase: GetSpaceLaunchesUseCase,
-    private val getSpaceCompanyUseCase: GetSpaceCompanyUseCase,
+    private val getPhotosUseCase: GetPhotosUseCase,
 ) : ViewModel() {
     private val _effect: Channel<UiEffect> = Channel() // Do not keep previous values.
     val effect = _effect.receiveAsFlow()
@@ -38,31 +37,17 @@ class MainViewModel(
     }
 
     val state: StateFlow<UiState> = combine(
-        getSpaceCompanyUseCase(),
-        getSpaceLaunchesUseCase(),
+        getPhotosUseCase(),
         getName(),
-    ) { companyResult, launchesResult, name ->
-        log { "companyResult=$companyResult, launchesResult=$launchesResult" }
-
-        val company = companyResult.successOrNull()
-        val launches = launchesResult.successOrNull()
-
-        val state = UiState.Dashboard(
-            name = name,
-            """
-                companyName: ${company?.companyName}
-                employees: ${company?.employees}
-                
-                launches: ${launches?.size}
-            """.trimIndent()
+    ) { photosResult, name ->
+        photosResult.fold(
+            { photos -> UiState.Dashboard(name, photos) },
+            { UiState.Error("Unable to load photos. Please try again later.") },
         )
-
-        log { "state=$state" }
-        state
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = UiState.Loading
+        initialValue = UiState.Loading,
     )
 
     fun event(event: UiEvent) {

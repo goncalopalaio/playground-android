@@ -1,6 +1,5 @@
 package com.playground.domain
 
-import com.playground.api.space.SpaceApi
 import com.playground.device.DeviceInformation
 import com.playground.logger.log
 
