@@ -11,6 +11,7 @@ import com.playground.domain.GetSpaceLaunchesUseCase
 import com.playground.domain.repository.SpaceRepository
 import com.playground.logger.LogcatLogger
 import com.playground.logger.Logger
+import com.playground.vm.UserStoreViewModel
 import com.playground.vm.UsersViewModel
 import com.playground.vm.MainViewModel
 import com.playground.space.SpaceSource
@@ -38,4 +39,5 @@ val appModule = module {
     /** ViewModels **/
     viewModel { MainViewModel(get(), get(), get()) }
     viewModel { UsersViewModel(get()) }
+    viewModel { parameters -> UserStoreViewModel(get(), parameters.get()) }
 }

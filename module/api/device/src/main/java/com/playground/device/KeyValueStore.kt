@@ -8,6 +8,9 @@ interface KeyValueStore {
     /** Inserts a value or replaces the existing value for the key. */
     suspend fun put(key: String, value: String)
 
+    /** Returns entries ordered by their most recent write, newest first. */
+    suspend fun getEntries(): List<KeyValueItem>
+
     /** Removes the key if it exists. */
     suspend fun remove(key: String)
 

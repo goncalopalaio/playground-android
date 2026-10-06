@@ -119,7 +119,7 @@ class RoomKeyValueStoreTest {
             legacy.version = 1
         }
         val database = Room.databaseBuilder(context, KeyValueDatabase::class.java, databaseName)
-            .addMigrations(KeyValueDatabase.MIGRATION_1_2, KeyValueDatabase.MIGRATION_2_3)
+            .addMigrations(KeyValueDatabase.MIGRATION_1_2, KeyValueDatabase.MIGRATION_2_3, KeyValueDatabase.MIGRATION_3_4)
             .build()
         stores = RoomKeyValueStores(database)
         store = stores.forUser("alice")
@@ -230,7 +230,19 @@ class RoomKeyValueStoreTest {
         assertEquals(emptyList<String>(), stores.getUsers())
     }
 
+    @Test
+    fun listsOnlyThisUsersEntriesWithLatestUpdatesFirst() = runTest {
+        store.put("first", "one")
+        stores.forUser("bob").put("private", "Bob")
+        store.put("second", "two")
+        assertEquals(listOf(KeyValueItem("second", "two"), KeyValueItem("first", "one")), store.getEntries())
+        store.put("first", "updated")
+        assertEquals(listOf(KeyValueItem("first", "updated"), KeyValueItem("second", "two")), store.getEntries())
+        store.remove("first")
+        assertEquals(listOf(KeyValueItem("second", "two")), store.getEntries())
+    }
+
     private fun openPersistentStores() = RoomKeyValueStores(
-        Room.databaseBuilder(context, KeyValueDatabase::class.java, databaseName).addMigrations(KeyValueDatabase.MIGRATION_1_2, KeyValueDatabase.MIGRATION_2_3).build()
+        Room.databaseBuilder(context, KeyValueDatabase::class.java, databaseName).addMigrations(KeyValueDatabase.MIGRATION_1_2, KeyValueDatabase.MIGRATION_2_3, KeyValueDatabase.MIGRATION_3_4).build()
     )
 }

@@ -14,7 +14,7 @@ class RoomKeyValueStores internal constructor(
             context.applicationContext,
             KeyValueDatabase::class.java,
             "key_value_store.db",
-        ).addMigrations(KeyValueDatabase.MIGRATION_1_2, KeyValueDatabase.MIGRATION_2_3).build()
+        ).addMigrations(KeyValueDatabase.MIGRATION_1_2, KeyValueDatabase.MIGRATION_2_3, KeyValueDatabase.MIGRATION_3_4).build()
     )
 
     override suspend fun forUser(userId: String): KeyValueStore {

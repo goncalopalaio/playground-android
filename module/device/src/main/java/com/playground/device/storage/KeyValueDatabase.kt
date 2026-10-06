@@ -5,12 +5,18 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [KeyValueEntry::class, StoreUser::class], version = 3, exportSchema = true)
+@Database(entities = [KeyValueEntry::class, StoreUser::class], version = 4, exportSchema = true)
 internal abstract class KeyValueDatabase : RoomDatabase() {
     abstract fun keyValueDao(): KeyValueDao
     abstract fun storeUserDao(): StoreUserDao
 
     companion object {
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE key_value_entries ADD COLUMN updatedOrder INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
         val MIGRATION_2_3 = object : Migration(2, 3) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("CREATE TABLE IF NOT EXISTS store_users (userId TEXT NOT NULL PRIMARY KEY)")

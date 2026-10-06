@@ -12,6 +12,9 @@ internal class RoomKeyValueStore(
 
     override suspend fun put(key: String, value: String) = dao.put(KeyValueEntry(userId, key, value))
 
+    override suspend fun getEntries(): List<KeyValueItem> =
+        dao.getEntries(userId).map { KeyValueItem(it.key, it.value) }
+
     override suspend fun remove(key: String) = dao.remove(userId, key)
 
     override suspend fun clear() = dao.clear(userId)

@@ -1,5 +1,6 @@
 package com.playground
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -44,6 +45,9 @@ class MainActivity : ComponentActivity() {
                         onUserIdChange = usersViewModel::updateUserId,
                         onCreateUser = usersViewModel::createUser,
                         onRefreshUsers = usersViewModel::refresh,
+                        onUserClick = { userId ->
+                            startActivity(Intent(this, UserStoreActivity::class.java).putExtra(UserStoreActivity.USER_ID, userId))
+                        },
                         modifier = Modifier.padding(innerPadding),
                     )
                 }

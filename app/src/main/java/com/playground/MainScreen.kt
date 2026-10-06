@@ -1,5 +1,6 @@
 package com.playground
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,6 +37,7 @@ fun MainScreen(
     onUserIdChange: (String) -> Unit,
     onCreateUser: () -> Unit,
     onRefreshUsers: () -> Unit,
+    onUserClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var selectedTab by rememberSaveable { mutableIntStateOf(0) }
@@ -55,7 +57,7 @@ fun MainScreen(
         if (selectedTab == 0) {
             Greeting(dashboardState, Modifier.weight(1f))
         } else {
-            UsersScreen(usersState, onUserIdChange, onCreateUser, onRefreshUsers, Modifier.weight(1f))
+            UsersScreen(usersState, onUserIdChange, onCreateUser, onRefreshUsers, onUserClick, Modifier.weight(1f))
         }
     }
 }
@@ -66,6 +68,7 @@ private fun UsersScreen(
     onUserIdChange: (String) -> Unit,
     onCreateUser: () -> Unit,
     onRefreshUsers: () -> Unit,
+    onUserClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -94,7 +97,7 @@ private fun UsersScreen(
         }
         LazyColumn(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             items(state.users, key = { it }) { userId ->
-                Text(userId, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
+                Text(userId, modifier = Modifier.fillMaxWidth().clickable { onUserClick(userId) }.padding(vertical = 8.dp))
             }
         }
     }
